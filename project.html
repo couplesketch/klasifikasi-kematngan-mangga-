@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laporan Klasifikasi Kematangan Mangga (MLP)</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fa;
+      line-height: 1.6;
+    }
+    header {
+      background: #2e7d32;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    header h3 {
+      margin: 5px 0 0 0;
+      font-weight: normal;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+    }
+    section {
+      margin-bottom: 30px;
+    }
+    section h2 {
+      border-left: 6px solid #2e7d32;
+      padding-left: 10px;
+      color: #2e7d32;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    .box {
+      background: #eef6f0;
+      padding: 15px;
+      border-left: 5px solid #4caf50;
+      margin: 15px 0;
+    }
+    .image-placeholder {
+      width: 100%;
+      height: 250px;
+      border: 2px dashed #999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      margin: 10px 0;
+    }
+    footer {
+      background: #2e7d32;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>LAPORAN</h1>
+    <h2>Klasifikasi Kematangan Mangga Menggunakan MLP</h2>
+    <h3>Kelompok 5</h3>
+  </header>
+
+  <div class="container">
+
+    <section>
+      <h2>1. Tujuan</h2>
+      <p>
+        Tujuan utama dari proyek ini adalah merancang dan mengimplementasikan sistem
+        klasifikasi tingkat kematangan buah mangga secara otomatis menggunakan
+        teknik <b>Pengolahan Citra Digital</b> dan <b>Machine Learning</b>.
+        Sistem ini diharapkan mampu membantu proses identifikasi kematangan mangga
+        secara objektif berdasarkan citra, tanpa bergantung pada penilaian visual
+        manusia yang bersifat subjektif.
+      </p>
+      <p>
+        Selain itu, tujuan lain dari penelitian ini adalah:
+      </p>
+      <ul>
+        <li>Mempelajari penerapan ekstraksi fitur citra digital pada objek buah.</li>
+        <li>Mengimplementasikan algoritma Multi Layer Perceptron (MLP) sebagai metode klasifikasi.</li>
+        <li>Mengevaluasi performa sistem menggunakan metrik akurasi, precision, recall, dan f1-score.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2. Metodologi</h2>
+      <p>
+        Metodologi yang digunakan pada penelitian ini mengikuti alur sistem
+        pengolahan citra digital dan machine learning secara umum. Tahapan
+        metodologi disusun secara sistematis agar hasil klasifikasi yang diperoleh
+        memiliki tingkat akurasi yang baik.
+      </p>
+      <ol>
+        <li><b>Pengumpulan Dataset</b>: Dataset berupa citra mangga dikumpulkan dan dikelompokkan ke dalam empat kelas, yaitu Mentah, Mengkal, Matang, dan Sangat Matang.</li>
+        <li><b>Preprocessing</b>: Setiap citra diubah ukurannya (resize) agar memiliki dimensi seragam sehingga mempermudah proses ekstraksi fitur.</li>
+        <li><b>Ekstraksi Fitur</b>: Fitur warna, tekstur, dan bentuk diekstraksi dari citra untuk merepresentasikan karakteristik visual mangga.</li>
+        <li><b>Normalisasi Data</b>: Data fitur dinormalisasi menggunakan StandardScaler agar setiap fitur memiliki skala yang sebanding.</li>
+        <li><b>Training Model</b>: Model MLP dilatih menggunakan data training untuk mempelajari pola tiap tingkat kematangan.</li>
+        <li><b>Evaluasi Model</b>: Model diuji menggunakan data testing dan dievaluasi dengan metrik evaluasi klasifikasi.</li>
+        <li><b>Implementasi Sistem</b>: Model yang telah dilatih diintegrasikan ke dalam aplikasi GUI untuk klasifikasi citra baru.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>3. Cara Kerja Sistem</h2>
+      <div class="box">
+        Cara kerja sistem dimulai dari pengguna yang memasukkan citra mangga ke dalam
+        aplikasi. Citra tersebut kemudian diproses melalui beberapa tahapan, yaitu
+        preprocessing, ekstraksi fitur, normalisasi, dan klasifikasi.
+      </div>
+      <p>
+        Setelah fitur warna, tekstur, dan bentuk diekstraksi, seluruh fitur
+        digabungkan menjadi satu vektor fitur. Vektor ini kemudian dinormalisasi
+        menggunakan StandardScaler dan dimasukkan ke dalam model MLP. Model MLP
+        akan menghasilkan output berupa kelas kematangan mangga yang paling sesuai
+        berdasarkan pola yang telah dipelajari sebelumnya.
+      </p>
+    </section>
+
+    <section>
+      <h2>4. Pengertian Fitur yang Digunakan</h2>
+      <ul>
+        <li>
+          <b>Fitur Warna (HSV)</b>: Fitur warna digunakan untuk merepresentasikan
+          perubahan warna kulit mangga yang berkaitan erat dengan tingkat
+          kematangannya. Ruang warna HSV dipilih karena mampu memisahkan informasi
+          warna (Hue) dari intensitas cahaya.
+        </li>
+        <li>
+          <b>Fitur Tekstur (GLCM)</b>: Fitur tekstur digunakan untuk menggambarkan
+          pola permukaan mangga. Parameter seperti contrast, correlation, energy,
+          dan homogeneity membantu membedakan tekstur mangga pada tiap tingkat
+          kematangan.
+        </li>
+        <li>
+          <b>Fitur Bentuk</b>: Fitur bentuk digunakan untuk menangkap karakteristik
+          geometris mangga, seperti luas, keliling, kebulatan, dan Hu Moments yang
+          bersifat invarian terhadap rotasi dan skala.
+        </li>
+      </ul>
+    </section>
+
+      <div class="box">
+        <pre>
+# =============================
+# IMPORT LIBRARY
+# =============================
+
+import os                          # Mengakses direktori dan file pada sistem
+import cv2                         # OpenCV untuk pengolahan citra
+import numpy as np                 # Operasi numerik dan array
+import tkinter as tk               # Library GUI Tkinter
+from tkinter import filedialog     # Dialog untuk memilih file
+from tkinter import Label, Button  # Widget Label dan Button
+from PIL import Image, ImageTk     # Menampilkan gambar di Tkinter
+
+# Library ekstraksi fitur tekstur
+from skimage.feature import graycomatrix, graycoprops
+
+# Library Machine Learning
+from sklearn.model_selection import train_test_split   # Membagi data training & testing
+from sklearn.preprocessing import StandardScaler       # Normalisasi fitur
+from sklearn.neural_network import MLPClassifier       # Model Neural Network (MLP)
+from sklearn.metrics import accuracy_score, classification_report  # Evaluasi model
+
+
+# =============================
+# KONFIGURASI DATASET
+# =============================
+
+# Path folder dataset training
+DATASET_PATH = r"C:/Users/zaki/Documents/Semester 5/Pengolahan Citra Digital/train"
+
+# Ukuran citra (resize)
+IMG_SIZE = 256
+
+# Mapping nama folder ke label numerik
+CLASS_MAP = {
+    'Mentah': 0,
+    'Mengkal': 1,
+    'Matang': 2,
+    'SangatMatang': 3
+}
+
+# Nama kelas untuk ditampilkan
+CLASS_NAMES = ['Mentah', 'Mengkal', 'Matang', 'Sangat Matang']
+
+
+# =============================
+# EKSTRAKSI FITUR WARNA (HSV)
+# =============================
+
+def extract_color_features(image, bins=8):
+    """
+    Mengekstraksi fitur warna menggunakan histogram HSV
+    """
+
+    # Konversi gambar dari BGR (OpenCV) ke HSV
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # Memisahkan channel H, S, dan V
+    h, s, v = cv2.split(hsv)
+
+    # Histogram channel Hue
+    hist_h = cv2.calcHist([h], [0], None, [bins], [0, 180])
+
+    # Histogram channel Saturation
+    hist_s = cv2.calcHist([s], [0], None, [bins], [0, 256])
+
+    # Histogram channel Value
+    hist_v = cv2.calcHist([v], [0], None, [bins], [0, 256])
+
+    # Menggabungkan histogram H, S, dan V
+    hist = np.concatenate([hist_h, hist_s, hist_v])
+
+    # Normalisasi histogram agar skala seragam
+    hist = cv2.normalize(hist, hist).flatten()
+
+    # Mengembalikan vektor fitur warna
+    return hist
+
+
+# =============================
+# EKSTRAKSI FITUR TEKSTUR (GLCM)
+# =============================
+
+def extract_texture_features(image):
+    """
+    Mengekstraksi fitur tekstur menggunakan Gray Level Co-occurrence Matrix (GLCM)
+    """
+
+    # Konversi citra ke grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Resize agar komputasi lebih efisien
+    gray = cv2.resize(gray, (128, 128))
+
+    # Menghitung matriks GLCM
+    glcm = graycomatrix(
+        gray,
+        distances=[1],                         # Jarak antar piksel
+        angles=[0, np.pi/4, np.pi/2, 3*np.pi/4],  # Arah sudut
+        levels=256,                            # Level keabuan
+        symmetric=True,
+        normed=True
+    )
+
+    # List untuk menyimpan fitur tekstur
+    features = []
+
+    # Mengambil properti GLCM
+    for prop in ['contrast', 'correlation', 'energy', 'homogeneity']:
+        features.append(graycoprops(glcm, prop).mean())
+
+    # Mengembalikan fitur tekstur
+    return np.array(features)
+
+
+# =============================
+# EKSTRAKSI FITUR BENTUK
+# =============================
+
+def extract_shape_features(image):
+    """
+    Mengekstraksi fitur bentuk menggunakan kontur dan Hu Moments
+    """
+
+    # Konversi ke grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Thresholding Otsu untuk segmentasi objek
+    _, thresh = cv2.threshold(
+        gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
+    )
+
+    # Mendeteksi kontur
+    contours, _ = cv2.findContours(
+        thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+    )
+
+    # Jika tidak ditemukan kontur
+    if len(contours) == 0:
+        return np.zeros(11)
+
+    # Mengambil kontur terbesar (objek utama)
+    cnt = max(contours, key=cv2.contourArea)
+
+    # Luas kontur
+    area = cv2.contourArea(cnt)
+
+    # Keliling kontur
+    perimeter = cv2.arcLength(cnt, True)
+
+    # Bounding box
+    x, y, w, h = cv2.boundingRect(cnt)
+
+    # Rasio aspek (lebar / tinggi)
+    aspect_ratio = w / h if h != 0 else 0
+
+    # Circularity (kebulatan objek)
+    circularity = (4 * np.pi * area) / (perimeter ** 2) if perimeter != 0 else 0
+
+    # Menghitung momen kontur
+    moments = cv2.moments(cnt)
+
+    # Menghitung Hu Moments
+    hu = cv2.HuMoments(moments).flatten()
+
+    # Transformasi log agar nilai lebih stabil
+    hu = -np.sign(hu) * np.log10(np.abs(hu) + 1e-10)
+
+    # Menggabungkan semua fitur bentuk
+    return np.concatenate([[area, perimeter, aspect_ratio, circularity], hu])
+
+
+# =============================
+# GABUNGAN SEMUA FITUR
+# =============================
+
+def extract_features(image):
+    """
+    Menggabungkan fitur warna, tekstur, dan bentuk
+    """
+
+    # Ekstraksi fitur warna
+    color = extract_color_features(image)
+
+    # Ekstraksi fitur tekstur
+    texture = extract_texture_features(image)
+
+    # Ekstraksi fitur bentuk
+    shape = extract_shape_features(image)
+
+    # Menggabungkan semua fitur
+    return np.concatenate([color, texture, shape])
+
+
+# =============================
+# LOAD DATASET
+# =============================
+
+def load_dataset():
+    """
+    Membaca dataset, mengekstraksi fitur, dan memberi label
+    """
+
+    X, y = [], []  # Menyimpan fitur dan label
+
+    # Loop setiap folder kelas
+    for folder, label in CLASS_MAP.items():
+        path = os.path.join(DATASET_PATH, folder)
+
+        # Loop setiap file gambar
+        for file in os.listdir(path):
+            img_path = os.path.join(path, file)
+
+            # Membaca gambar
+            image = cv2.imread(img_path)
+
+            # Jika gambar gagal dibaca
+            if image is None:
+                continue
+
+            # Resize gambar
+            image = cv2.resize(image, (IMG_SIZE, IMG_SIZE))
+
+            # Ekstraksi fitur
+            features = extract_features(image)
+
+            # Simpan fitur dan label
+            X.append(features)
+            y.append(label)
+
+    return np.array(X), np.array(y)
+
+
+# =============================
+# TRAINING & EVALUASI MODEL
+# =============================
+
+print("Memuat dataset...")
+X, y = load_dataset()
+
+# Normalisasi fitur agar memiliki skala yang sama
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+
+# Membagi data menjadi training dan testing
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+print("Training MLP...")
+
+# Inisialisasi model MLP
+mlp = MLPClassifier(
+    hidden_layer_sizes=(64, 32),   # Jumlah neuron di hidden layer
+    activation='relu',             # Fungsi aktivasi
+    solver='adam',                 # Optimizer
+    max_iter=300,                  # Iterasi maksimum
+    random_state=42
+)
+
+# Melatih model
+mlp.fit(X_train, y_train)
+
+# Prediksi data uji
+y_pred = mlp.predict(X_test)
+
+# Evaluasi performa model
+print("\n=== HASIL EVALUASI MODEL ===")
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print(classification_report(y_test, y_pred, target_names=CLASS_NAMES))
+
+
+# =============================
+# GUI TKINTER
+# =============================
+
+def classify_image():
+    """
+    Memilih gambar dan melakukan klasifikasi kematangan mangga
+    """
+
+    # Dialog memilih file gambar
+    file_path = filedialog.askopenfilename(
+        filetypes=[("Image Files", "*.jpg *.png *.jpeg")]
+    )
+
+    # Jika tidak ada file dipilih
+    if not file_path:
+        return
+
+    # Membaca dan resize gambar
+    image = cv2.imread(file_path)
+    image = cv2.resize(image, (IMG_SIZE, IMG_SIZE))
+
+    # Ekstraksi dan normalisasi fitur
+    feat = extract_features(image)
+    feat = scaler.transform([feat])
+
+    # Prediksi kelas
+    pred = mlp.predict(feat)[0]
+    result = CLASS_NAMES[pred]
+
+    # Konversi gambar ke RGB untuk Tkinter
+    img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    img_pil = Image.fromarray(img_rgb)
+    img_pil = img_pil.resize((300, 300))
+    img_tk = ImageTk.PhotoImage(img_pil)
+
+    # Menampilkan gambar
+    img_label.config(image=img_tk)
+    img_label.image = img_tk
+
+    # Menampilkan hasil klasifikasi
+    result_label.config(
+        text=f"Hasil Klasifikasi: {result}",
+        fg="green"
+    )
+
+
+# =============================
+# INISIALISASI GUI
+# =============================
+
+# Membuat window utama
+root = tk.Tk()
+root.title("Klasifikasi Kematangan Mangga (MLP)")
+
+# Tombol untuk load dan klasifikasi gambar
+Button(root, text="Load & Klasifikasi Gambar", command=classify_image).pack(pady=10)
+
+# Label untuk menampilkan gambar
+img_label = Label(root)
+img_label.pack()
+
+# Label untuk menampilkan hasil prediksi
+result_label = Label(root, text="", font=("Arial", 14, "bold"))
+result_label.pack(pady=10)
+
+# Menjalankan GUI
+root.mainloop()
+
+        </pre>
+      </div>
+
+    <section>
+      <h2>5. Penjelasan Kode Program</h2>
+      <p>
+        Kode program di atas terdiri dari beberapa blok utama yang saling terintegrasi untuk membentuk sistem klasifikasi yang utuh. Berikut adalah penjelasan mendalam untuk setiap bagian kode:
+      </p>
+
+      <h3>A. Import Library & Konfigurasi</h3>
+      <p>
+        Bagian ini memuat pustaka yang diperlukan. <code>cv2</code> (OpenCV) digunakan untuk manipulasi citra, <code>sklearn</code> untuk algoritma Machine Learning, dan <code>skimage</code> untuk perhitungan matriks GLCM. Variabel global seperti <code>IMG_SIZE</code> dan <code>CLASS_MAP</code> didefinisikan di sini untuk memastikan konsistensi di seluruh program.
+      </p>
+
+      <h3>B. Ekstraksi Fitur</h3>
+      <p>
+        Fungsi <code>extract_features</code> bertindak sebagai fungsi utama yang menggabungkan tiga jenis fitur:
+      </p>
+      <ul>
+        <li>
+          <b>Warna (HSV)</b>: Fungsi <code>extract_color_features</code> mengubah citra ke ruang warna HSV dan menghitung histogram untuk Hue, Saturation, dan Value. Histogram ini dinormalisasi agar invarian terhadap ukuran gambar.
+        </li>
+        <li>
+          <b>Tekstur (GLCM)</b>: Fungsi <code>extract_texture_features</code> mengubah citra ke grayscale dan menghitung GLCM. Properti statistik seperti <i>contrast</i>, <i>correlation</i>, <i>energy</i>, dan <i>homogeneity</i> diambil sebagai fitur tekstur.
+        </li>
+        <li>
+          <b>Bentuk (Shape)</b>: Fungsi <code>extract_shape_features</code> menggunakan thresholding Otsu untuk mendapatkan biner citra, lalu mencari kontur terbesar. Dari kontur tersebut, dihitung luas, keliling, rasio aspek, kebulatan, dan <i>Hu Moments</i> untuk mengenali bentuk mangga.
+        </li>
+      </ul>
+
+      <h3>C. Persiapan Dataset (Loading & Preprocessing)</h3>
+      <p>
+        Fungsi <code>load_dataset</code> melakukan iterasi pada setiap folder kelas. Setiap citra dibaca, di-<i>resize</i> ke ukuran 256x256 piksel untuk keseragaman, dan diproses melalui fungsi ekstraksi fitur. Hasilnya disimpan dalam array <code>X</code> (fitur) dan <code>y</code> (label).
+      </p>
+
+      <h3>D. Pelatihan Model (Training)</h3>
+      <p>
+        Data dibagi menjadi data latih (80%) dan data uji (20%) menggunakan <code>train_test_split</code>. <code>StandardScaler</code> diterapkan untuk menstandarisasi fitur (mean=0, variance=1), yang krusial untuk konvergensi algoritma Neural Network. Model <code>MLPClassifier</code> dikonfigurasi dengan dua <i>hidden layer</i> (64 dan 32 neuron), fungsi aktivasi ReLU, dan optimizer Adam.
+      </p>
+
+      <h3>E. Antarmuka Pengguna (GUI)</h3>
+      <p>
+        Bagian ini menggunakan <code>Tkinter</code>. Fungsi <code>classify_image</code> menangani logika saat tombol ditekan: membuka dialog file, memproses gambar yang dipilih (resize & ekstraksi fitur), melakukan prediksi menggunakan model yang telah dilatih, dan memperbarui label teks serta gambar pada jendela aplikasi.
+      </p>
+    </section>
+
+    <section>
+      <h2>6. Hasil Output (Gambar)</h2>
+      <p>Berikut adalah contoh tampilan hasil klasifikasi pada aplikasi untuk setiap kategori kematangan:</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+        <div style="text-align: center;">
+          <img src="mentah.jpeg" alt="Mangga Mentah" style="width: 200px; height: auto; border: 1px solid #ddd; padding: 5px;">
+          <p><b>Mentah</b></p>
+        </div>
+        <div style="text-align: center;">
+          <img src="mengkel.jpeg" alt="Mangga Mengkal" style="width: 200px; height: auto; border: 1px solid #ddd; padding: 5px;">
+          <p><b>Mengkal</b></p>
+        </div>
+        <div style="text-align: center;">
+          <img src="matang .jpeg" alt="Mangga Matang" style="width: 200px; height: auto; border: 1px solid #ddd; padding: 5px;">
+          <p><b>Matang</b></p>
+        </div>
+        <div style="text-align: center;">
+          <img src="sangatmatang.jpeg" alt="Mangga Sangat Matang" style="width: 200px; height: auto; border: 1px solid #ddd; padding: 5px;">
+          <p><b>Sangat Matang</b></p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>7. Penjelasan Hasil Output</h2>
+      <p>
+        Hasil output menunjukkan bahwa sistem mampu mengklasifikasikan citra mangga
+        ke dalam empat kelas kematangan dengan performa yang cukup baik. Nilai
+        akurasi sebesar <b>85%</b> menandakan bahwa sebagian besar data uji berhasil
+        diklasifikasikan dengan benar.
+      </p>
+      <p>
+        Berdasarkan hasil visual pada bagian sebelumnya, terlihat bahwa sistem mampu membedakan karakteristik fisik mangga.
+        Mangga <b>Mentah</b> teridentifikasi dari dominasi warna hijau gelap dan tekstur kulit yang halus.
+        Mangga <b>Mengkal</b> mulai menunjukkan gradasi warna kekuningan.
+        Mangga <b>Matang</b> memiliki warna kuning dominan, sedangkan <b>Sangat Matang</b> cenderung memiliki bercak atau warna oranye tua yang khas.
+        Kombinasi fitur HSV (warna) dan GLCM (tekstur) sangat berperan dalam pembedaan ini.
+      </p>
+      <p>
+        Kelas <i>Sangat Matang</i> memiliki performa terbaik dengan nilai precision
+        dan recall yang tinggi, sedangkan kelas <i>Matang</i> memiliki tingkat
+        kesalahan yang sedikit lebih besar karena kemiripan visual dengan kelas
+        Mengkal.
+      </p>
+      <div class="box">
+        <pre>
+Accuracy : 0.85
+
+Mentah        : Precision 0.80 | Recall 0.93
+Mengkal      : Precision 0.88 | Recall 0.75
+Matang       : Precision 0.76 | Recall 0.80
+Sangat Matang: Precision 0.97 | Recall 0.93
+        </pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>8. Library yang Digunakan</h2>
+      <ul>
+        <li><b>OpenCV (cv2)</b>: Digunakan untuk membaca citra, mengubah ukuran (resize), konversi ruang warna (BGR ke HSV, Grayscale), dan pemrosesan awal lainnya.</li>
+        <li><b>NumPy</b>: Digunakan untuk operasi matriks dan array, terutama dalam memanipulasi data piksel dan vektor fitur.</li>
+        <li><b>Scikit-learn</b>: Digunakan untuk membangun model Machine Learning (MLPClassifier), membagi dataset (train_test_split), normalisasi data (StandardScaler), dan evaluasi model.</li>
+        <li><b>Scikit-image</b>: Digunakan khusus untuk ekstraksi fitur tekstur menggunakan metode GLCM (Gray Level Co-occurrence Matrix).</li>
+        <li><b>Pillow (PIL)</b>: Digunakan untuk memproses citra agar kompatibel dengan antarmuka GUI Tkinter.</li>
+        <li><b>Tkinter</b>: Digunakan untuk membuat antarmuka pengguna grafis (GUI) agar aplikasi dapat dijalankan secara interaktif.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>9. Kesimpulan</h2>
+      <p>
+        Sistem klasifikasi kematangan mangga berbasis MLP berhasil dibangun dan
+        mampu mencapai akurasi sebesar <b>85%</b>. Kombinasi fitur warna, tekstur,
+        dan bentuk terbukti efektif dalam membedakan tingkat kematangan mangga.
+        Secara keseluruhan, proyek ini menunjukkan bahwa pendekatan Machine Learning
+        dapat menjadi solusi alternatif yang objektif untuk menggantikan penilaian manual.
+        Sistem ini dapat dikembangkan lebih lanjut dengan dataset yang lebih
+        besar dan metode klasifikasi lain seperti CNN untuk hasil yang lebih robust.
+      </p>
+    </section>
+
+    <section>
+      <h2>Anggota Kelompok</h2>
+      <ol>
+        <li>Dzaky</li>
+        <li>Gaizka</li>
+        <li>Jagad</li>
+        <li>Fatih</li>
+        <li>Ghany</li>
+      </ol>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>&copy; 2025 - Kelompok 5 | Pengolahan Citra Digital</p>
+  </footer>
+
+  <script>
+    // JavaScript dapat dikembangkan untuk interaksi tambahan
+    console.log("Laporan Klasifikasi Mangga - Kelompok 5");
+  </script>
+
+</body>
+</html>
